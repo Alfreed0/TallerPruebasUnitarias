@@ -69,6 +69,19 @@ public class EmployeeTest {
 	    assertEquals(1007.0F,salarioManager,0.0);
 	}
   /**
+   * En este caso de prueba verificamos si al ingresar una moneda que no es USD realiza bien el cambio
+   * de moneda y funcionando para el mes par como debe ser
+   * Entrada de salario: 1000F
+   * Salida esperada: 953.5F
+   */
+  
+  @Test
+  public void testCSManagerCUC(){
+      Employee manager = new Employee(1000F,"CUC",10.0F,EmployeeType.Manager);
+      float salarioManager = manager.cs();
+      assertEquals(957F,salarioManager,0.0);
+  }
+  /**
    * Este caso de prueba sirve para corrobar si el bonus de un Manager con el tipo de Moneda USD funciona correctamente.
    */
   @Test
@@ -100,4 +113,28 @@ public class EmployeeTest {
         float salarioSupervisor = supervisor.cs();
         assertEquals(953.5F, salarioSupervisor, 0.0);
     }
+    /**
+     * Calculando el bono a un supervisor en otra moneda para ver si acepta otras monedas para que pueda hacer el cambio
+     * Entrada de salario: 1000F
+     * Entrada de Bono: 10F
+     * Salida esperada: 1143.0F
+     */
+    @Test
+    public void testCalculateBonusSupervisorCUC(){
+        Employee supervisor = new Employee(1000.0F,"CUC",10.0F,EmployeeType.Supervisor);
+        float salarioSupervisor = supervisor.CalculateYearBonus();
+        assertEquals(1143.0F,salarioSupervisor,0.0);
+    }
+    
+    /**
+     * Para poder realizar este metodo cambiamos el mes de la computadora a el mes de julio, un mes impar por lo que podremos
+     * verificar si este metodo tambien funciona para los meses impares
+     */
+    @Test
+    public void testCalculateCDManagerMesImpar(){
+        Employee manager = new Employee(1000.0F,"CUC",10.0F,EmployeeType.Manager);
+        float salarioManager = manager.cs();
+        assertEquals(1021.3333129882812,salarioManager,0.0);
+    }
+    
 }

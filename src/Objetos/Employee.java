@@ -45,6 +45,7 @@ public class Employee
                 return month%2==0?salario:salario + rmu/12*2;
             case Supervisor:
                 float valueS = salario + (bonusPercentage * 0.35F);
+                System.out.println(bonusPercentage*0.35F);
                 //Si el mes es impar entonces le entrega 
                 //el décimo junto con su salario y un bono
                 return month%2==0?valueS:valueS + rmu/12*2;
