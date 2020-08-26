@@ -1,9 +1,5 @@
 package Objetos;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -12,21 +8,6 @@ public class EmployeeTest {
     public EmployeeTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
 
     //Test para corrobar si pasando el parametro currency en minusculas sigue tomando el valor del salario completo para Worker
     //Con un buen funcionamiento deberia retornar 2750.0 , el salario completo del trabajador, acorde con el currency dado
@@ -100,19 +81,45 @@ public class EmployeeTest {
 	    float salarioManager = Manager.CalculateYearBonus();
 	    assertEquals(1336.0F,salarioManager,0.0);
 	}
-    @Test
-    public void testCSworker() {
+    
+  /**
+   * Se realiza una prueba para corroborar el salario de un empleado si es un mes impar recibe adicionalmente el decimo, recordemos que para 
+   * la moneda en USD recibe el salario completo
+   */
+  @Test
+    public void testCSworkerUSD() {
         Employee worker = new Employee(1000.0F, "USD", 10.0F, EmployeeType.Worker);
         float workerSalario = worker.cs();
         assertEquals(1000.0F, workerSalario, 0.0);
     }
-
+    /**
+   * Se realiza una prueba para corroborar el salario de un empleado de tipo Worker,si es un mes impar recibe adicionalmente el decimo, recordemos que para la moneda
+   * que no sea USD recibe el 95% de su salario inicial
+   */
     @Test
-    public void testCSSupervisor() {
+    public void testCSworkerOtraMoneda() {
+        Employee worker = new Employee(1000.0F, "EUR", 10.0F, EmployeeType.Worker);
+        float workerSalario = worker.cs();
+        assertEquals(950.0F, workerSalario, 0.0); 
+            
+    }       
+   /**
+    * Se realiza una prueba para corroborar el salario de un empleado de tipo Supervisor este recibe ademas de su salario un bono y si es un mes impar recibe adicionalmente el decimo,
+    * recordemos que para la moneda que no sea "USD" recibe el 95% de su salario inicial.
+    */         
+   
+    @Test
+    public void testCSSupervisorOtraMoneda() {
         Employee supervisor = new Employee(1000.0F, "CUC", 10.0F, EmployeeType.Supervisor);
         float salarioSupervisor = supervisor.cs();
         assertEquals(953.5F, salarioSupervisor, 0.0);
     }
+    
+    
+    
+    
+    
+    
     /**
      * Calculando el bono a un supervisor en otra moneda para ver si acepta otras monedas para que pueda hacer el cambio
      * Entrada de salario: 1000F
