@@ -58,7 +58,35 @@ public class EmployeeTest {
         float result = instance.CalculateYearBonus();
         assertEquals(expResult, result, 0.0);
     }
-    
+    /**
+	 * Este caso de prueba sirve para corroborar si se entrega el sueldo del Manager
+	 *  con el tipo de Moneda USD funciona como es el esperado para un mes par.
+	 */
+  @Test 
+  public void testCSManagerUSD(){
+	    Employee Manager = new Employee(1000F,"USD",10.0F,EmployeeType.Manager);
+	    float salarioManager = Manager.cs();
+	    assertEquals(1007.0F,salarioManager,0.0);
+	}
+  /**
+   * Este caso de prueba sirve para corrobar si el bonus de un Manager con el tipo de Moneda USD funciona correctamente.
+   */
+  @Test
+  public void testCalculateBonusSManagerUSD(){
+	    Employee Manager = new Employee(1000F,"USD",10.0F,EmployeeType.Manager);
+	    float salarioManager = Manager.CalculateYearBonus();
+	    assertEquals(1386.0F,salarioManager,0.0);
+	}
+  /**
+   * Este caso de prueba sirve para corrobar si el bonus de un Manager con otro tipo de moneda que no es USD funciona correctamente
+   * mediante la resta del 5 porciento debido al cambio de moneda.
+   */
+  @Test
+  public void testCalculateBonusSManager(){
+	    Employee Manager = new Employee(1000F,"EUR",10.0F,EmployeeType.Manager);
+	    float salarioManager = Manager.CalculateYearBonus();
+	    assertEquals(1336.0F,salarioManager,0.0);
+	}
     @Test
     public void testCSworker() {
         Employee worker = new Employee(1000.0F, "USD", 10.0F, EmployeeType.Worker);
