@@ -3,11 +3,12 @@ package Objetos;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import org.junit.Assert;
+
 public class EmployeeTest {
 
     public EmployeeTest() {
     }
-
 
     //Test para corrobar si pasando el parametro currency en minusculas sigue tomando el valor del salario completo para Worker
     //Con un buen funcionamiento deberia retornar 2750.0 , el salario completo del trabajador, acorde con el currency dado
@@ -43,83 +44,82 @@ public class EmployeeTest {
 	 * Este caso de prueba sirve para corroborar si se entrega el sueldo del Manager
 	 *  con el tipo de Moneda USD funciona como es el esperado para un mes par.
 	 */
-  @Test 
-  public void testCSManagerUSD(){
+    @Test 
+    public void testCSManagerUSD(){
 	    Employee Manager = new Employee(1000F,"USD",10.0F,EmployeeType.Manager);
 	    float salarioManager = Manager.cs();
 	    assertEquals(1007.0F,salarioManager,0.0);
-	}
-  /**
-   * En este caso de prueba verificamos si al ingresar una moneda que no es USD realiza bien el cambio
-   * de moneda y funcionando para el mes par como debe ser
-   * Entrada de salario: 1000F
-   * Salida esperada: 953.5F
-   */
+    }
   
-  @Test
-  public void testCSManagerCUC(){
+    /**
+     * En este caso de prueba verificamos si al ingresar una moneda que no es USD realiza bien el cambio
+     * de moneda y funcionando para el mes par como debe ser
+     * Entrada de salario: 1000F
+     * Salida esperada: 953.5F
+     */
+    @Test
+    public void testCSManagerCUC(){
       Employee manager = new Employee(1000F,"CUC",10.0F,EmployeeType.Manager);
       float salarioManager = manager.cs();
       assertEquals(957F,salarioManager,0.0);
-  }
-  /**
-   * Este caso de prueba sirve para corrobar si el bonus de un Manager con el tipo de Moneda USD funciona correctamente.
-   */
-  @Test
-  public void testCalculateBonusSManagerUSD(){
+    }
+  
+    /**
+     * Este caso de prueba sirve para corrobar si el bonus de un Manager con el tipo de Moneda USD funciona correctamente.
+     */
+    @Test
+    public void testCalculateBonusSManagerUSD(){
 	    Employee Manager = new Employee(1000F,"USD",10.0F,EmployeeType.Manager);
 	    float salarioManager = Manager.CalculateYearBonus();
 	    assertEquals(1386.0F,salarioManager,0.0);
 	}
-  /**
-   * Este caso de prueba sirve para corrobar si el bonus de un Manager con otro tipo de moneda que no es USD funciona correctamente
-   * mediante la resta del 5 porciento debido al cambio de moneda.
-   */
-  @Test
-  public void testCalculateBonusSManager(){
+  
+    /**
+     * Este caso de prueba sirve para corrobar si el bonus de un Manager con otro tipo de moneda que no es USD funciona 
+     * correctamente mediante la resta del 5 porciento debido al cambio de moneda.
+     */
+    @Test
+    public void testCalculateBonusSManager(){
 	    Employee Manager = new Employee(1000F,"EUR",10.0F,EmployeeType.Manager);
 	    float salarioManager = Manager.CalculateYearBonus();
 	    assertEquals(1336.0F,salarioManager,0.0);
 	}
     
-  /**
-   * Se realiza una prueba para corroborar el salario de un empleado si es un mes impar recibe adicionalmente el decimo, recordemos que para 
-   * la moneda en USD recibe el salario completo
-   */
-  @Test
+    /**
+     * Se realiza una prueba para corroborar el salario de un empleado si es un mes impar recibe adicionalmente el decimo,
+     * recordemos que para la moneda en USD recibe el salario completo
+     */
+    @Test
     public void testCSworkerUSD() {
         Employee worker = new Employee(1000.0F, "USD", 10.0F, EmployeeType.Worker);
         float workerSalario = worker.cs();
         assertEquals(1000.0F, workerSalario, 0.0);
     }
+  
     /**
-   * Se realiza una prueba para corroborar el salario de un empleado de tipo Worker,si es un mes impar recibe adicionalmente el decimo, recordemos que para la moneda
-   * que no sea USD recibe el 95% de su salario inicial
-   */
+     * Se realiza una prueba para corroborar el salario de un empleado de tipo Worker,si es un mes impar recibe adicionalmente
+     * el decimo, recordemos que para la moneda que no sea USD recibe el 95% de su salario inicial
+     */
     @Test
     public void testCSworkerOtraMoneda() {
         Employee worker = new Employee(1000.0F, "EUR", 10.0F, EmployeeType.Worker);
         float workerSalario = worker.cs();
         assertEquals(950.0F, workerSalario, 0.0); 
             
-    }       
-   /**
-    * Se realiza una prueba para corroborar el salario de un empleado de tipo Supervisor este recibe ademas de su salario un bono y si es un mes impar recibe adicionalmente el decimo,
-    * recordemos que para la moneda que no sea "USD" recibe el 95% de su salario inicial.
-    */         
-   
+    }    
+    
+    /**
+     * Se realiza una prueba para corroborar el salario de un empleado de tipo Supervisor este recibe ademas de su salario 
+     * un bono y si es un mes impar recibe adicionalmente el decimo,
+     * recordemos que para la moneda que no sea "USD" recibe el 95% de su salario inicial.
+     */         
     @Test
     public void testCSSupervisorOtraMoneda() {
         Employee supervisor = new Employee(1000.0F, "CUC", 10.0F, EmployeeType.Supervisor);
         float salarioSupervisor = supervisor.cs();
         assertEquals(953.5F, salarioSupervisor, 0.0);
     }
-    
-    
-    
-    
-    
-    
+  
     /**
      * Calculando el bono a un supervisor en otra moneda para ver si acepta otras monedas para que pueda hacer el cambio
      * Entrada de salario: 1000F
@@ -144,4 +144,36 @@ public class EmployeeTest {
         assertEquals(1021.3333129882812,salarioManager,0.0);
     }
     
+    /**
+     * Se calcula que pasaria con una bonificacion negativa para el tipo de empleado Supervisor
+     */
+    @Test
+    public void testCSNegativeBonus() {
+    	Employee supervisor = new Employee(1000.0F, "USD", -5.0F, EmployeeType.Supervisor);
+    	float salarioSupervisor = supervisor.cs();
+    	assertEquals(998.25F, salarioSupervisor, 0.0);
+    }
+    
+    /**
+     * Prueba para saber si contruye el objeto empleado cuando se le pasa un salario negativo 
+     */
+    @Test 
+    public void testEmployeeConstructor() {
+    	 Employee tester1 = new Employee(-101, "USD", 0.15F, EmployeeType.Worker);
+    	 assertNotNull(tester1);
+     }
+    
+    /**
+     * Prueba de que pasaria si el empleado es creado con un tipo EmployeeType null
+     */
+    @Test
+    public void testCSEmployeeTypeNull() {
+    	Employee typeNull = new Employee(2000.0F, "USD", 35.0F, null);
+    	try {
+    		typeNull.cs();
+    		Assert.fail("No deberia dejar crear empleados con EmployeeType null");
+    	} catch(NullPointerException e) {
+    		System.out.println("Excepcion de Puntero nulo");
+    	}
+    }
 }
